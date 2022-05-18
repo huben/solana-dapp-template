@@ -3,6 +3,7 @@
 ### 前置安装
 
 node.js
+rust
 anchor
 
 
@@ -24,5 +25,11 @@ declare_id!("69NzrJ1PCVGK3PPAt6GWWJMx7qXQ7VVfNW3qoWPd58x");
 ### 发布 program 到本地链上
 ```
 npm run deploy
+```
+
+### 启动 app
+```
+cd app
+npm run serve
 ```
 
