@@ -1,0 +1,28 @@
+
+
+### 前置安装
+
+node.js
+anchor
+
+
+### 启动本地节点
+```
+solana-test-validator
+```
+
+
+### 查看 programId
+```
+npm run address
+```
+并将 programId 替换掉 /programs/src/lib.rs 中的
+```
+declare_id!("69NzrJ1PCVGK3PPAt6GWWJMx7qXQ7VVfNW3qoWPd58x");
+```
+
+### 发布 program 到本地链上
+```
+npm run deploy
+```
+
