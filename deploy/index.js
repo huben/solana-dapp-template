@@ -24,7 +24,12 @@ const { airdrop } = require('./solana')
     if (cluster.net !== cluster.MAIN_NET) {
       await airdrop(developerKeypair.publicKey, 5)
     }
-  } 
-  await upgrade()
-  fs.copyFileSync(targetIdl, distIdl)
+  }
+  if (process.env.DEPLOY_TYPE === 'upgrade') {
+    // idl none metadata address
+    await upgrade()
+  } else {
+    await deploy()
+    fs.copyFileSync(targetIdl, distIdl)
+  }
 })()

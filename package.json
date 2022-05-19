@@ -7,6 +7,7 @@
     "deploy:dev": "cross-env NODE_ENV=dev node ./deploy/index.js",
     "deploy:test": "cross-env NODE_ENV=test node ./deploy/index.js",
     "deploy:main": "cross-env NODE_ENV=main node ./deploy/index.js",
+    "upgrade": "cross-env DEPLOY_TYPE=upgrade npm run deploy:local",
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
   },

@@ -4,10 +4,9 @@ import { Connection, PublicKey } from '@solana/web3.js'
 import { Program, AnchorProvider, web3 } from '@project-serum/anchor'
 
 import idl from '../config/idl.json';
-import pId from '../config/programId.js';
 import cluster from '../config/cluster'
 
-const programId = new PublicKey(pId);
+const programId = new PublicKey(idl.metadata.address);
 
 console.log(programId.toString())
 const preflightCommitment = 'processed'
