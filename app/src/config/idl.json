@@ -3,10 +3,10 @@
   "name": "solana_dapp_template",
   "instructions": [
     {
-      "name": "initialize",
+      "name": "init",
       "accounts": [
         {
-          "name": "baseAccount",
+          "name": "counterAccount",
           "isMut": true,
           "isSigner": true
         },
@@ -27,7 +27,7 @@
       "name": "increment",
       "accounts": [
         {
-          "name": "baseAccount",
+          "name": "counterAccount",
           "isMut": true,
           "isSigner": false
         }
@@ -37,7 +37,7 @@
   ],
   "accounts": [
     {
-      "name": "BaseAccount",
+      "name": "CounterAccount",
       "type": {
         "kind": "struct",
         "fields": [
@@ -49,7 +49,14 @@
       }
     }
   ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MaxCount",
+      "msg": "count cannot > 5."
+    }
+  ],
   "metadata": {
-    "address": "pd4HDkTCuTtmbK67zV6q8n1Mq5oFdZYh1DYsK4uPwuY"
+    "address": "268H6NLNLf3Y4ycKrqwm5DufvvWbp1Pkjvx1DLZuQc51"
   }
 }

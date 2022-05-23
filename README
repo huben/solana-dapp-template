@@ -20,6 +20,7 @@ yarn install
 ### 查看 programId
 ```
 npm run address
+anchor keys list
 ```
 并将 programId 替换掉 /programs/src/lib.rs 中的
 ```
@@ -36,4 +37,3 @@ npm run deploy
 cd app
 npm run serve
 ```
-

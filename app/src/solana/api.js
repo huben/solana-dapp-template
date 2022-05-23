@@ -4,9 +4,9 @@ import { web3 } from '@project-serum/anchor'
 export const init = () => {
   const { newAccount, wallet, program } = useWorkspace()
   console.log(program.value.programId.toString())
-  return program.value.rpc.initialize({
+  return program.value.rpc.init({
     accounts: {
-      baseAccount: newAccount.publicKey,
+      counterAccount: newAccount.publicKey,
       signer: wallet.value.publicKey,
       systemProgram: web3.SystemProgram.programId,
     },
@@ -16,14 +16,14 @@ export const init = () => {
 
 export const fetchAccount = async () => {
   const { newAccount, program } = useWorkspace()
-  return program.value.account.baseAccount.fetch(newAccount.publicKey)
+  return program.value.account.counterAccount.fetch(newAccount.publicKey)
 }
 
 export const increment = async () => {
   const { newAccount, program } = useWorkspace()
   return program.value.rpc.increment({
     accounts: {
-      baseAccount: newAccount.publicKey
+      counterAccount: newAccount.publicKey
     }
   })
 }
