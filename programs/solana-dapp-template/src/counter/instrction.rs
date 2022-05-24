@@ -7,7 +7,7 @@ pub struct Init<'info> {
     #[account(
         init,
         payer = signer, 
-        space = CounterAccount::LEN
+        space = CounterAccount::LENGTH
     )]
     pub counter_account: Account<'info, CounterAccount>,
     #[account(mut)]
@@ -19,5 +19,4 @@ pub struct Init<'info> {
 pub struct Increment<'info> {
     #[account(mut)]
     pub counter_account: Account<'info, CounterAccount>,
-    
 }

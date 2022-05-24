@@ -9,6 +9,8 @@
       el-button(@click="tapInit") init
       el-button(@click="tapIncrement") increment
       el-button(@click="tapFetchAll") all
+  
+  div(style="height: 15px;")
 
   el-table(
     :data="counters" 

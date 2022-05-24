@@ -18,7 +18,7 @@ pub struct CounterAccount {
 const LENGTH_COUNT: usize = 8;
 
 impl CounterAccount {
-    pub const LEN: usize = LENGTH_DISCRIMINATOR
+    pub const LENGTH: usize = LENGTH_DISCRIMINATOR
         + LENGTH_PUBLIC_KEY
         + LENGTH_TIMESTAMP
         + LENGTH_ACCOUNT_TYPE

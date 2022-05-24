@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import layout from './layout'
 import dashboard from '@/views/dashboard'
 import counter from '@/views/counter'
+import post from '@/views/post'
 
 export const routes = [
   { 
@@ -30,7 +31,20 @@ export const routes = [
     meta: {
       title: 'counter'
     } 
-  }
+  },
+  {
+    path: '/post', component: layout, 
+    redirect: '/post/index',
+    children: [
+      {
+        path: 'index',
+        component: post,
+      }
+    ],
+    meta: {
+      title: 'post'
+    } 
+  },
   
 ]
 
