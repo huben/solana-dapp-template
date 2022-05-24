@@ -1,11 +1,13 @@
-<template>
-  <div class="counter">
-    <div class="count">{{ counter ? counter.count : 'None' }}</div>
-    <div class="btn-group">
-      <button @click="tapInit">init</button>
-      <button @click="tapIncrement">increment</button>
-    </div>
-  </div>
+<template lang="pug">
+.counter 
+  el-card
+    template(#header)
+      .card-header
+        span Counter
+        el-button(class="button" text) {{ counter ? counter.count : 'there is none cunter, plz init first' }}
+    div
+      el-button(@click="tapInit") init
+      el-button(@click="tapIncrement") increment
 </template>
 
 <script>
@@ -43,20 +45,4 @@ export default {
 </script>
 
 <style scoped>
-.counter {
-  width: 300px;
-  padding: 15px;
-}
-.count {
-  text-align: center;
-  font-size: 20px;
-}
-.btn-group {
-  display: flex;
-  justify-content: space-between;
-}
-.btn-group > button{
-  flex: 1;
-  padding: 10px
-}
 </style>
