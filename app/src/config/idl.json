@@ -42,6 +42,18 @@
         "kind": "struct",
         "fields": [
           {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "accountType",
+            "type": "i32"
+          },
+          {
             "name": "count",
             "type": "u64"
           }
@@ -53,7 +65,7 @@
     {
       "code": 6000,
       "name": "MaxCount",
-      "msg": "count cannot > 5."
+      "msg": "count cannot > 3."
     }
   ],
   "metadata": {

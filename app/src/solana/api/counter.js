@@ -20,11 +20,6 @@ export const init = async () => {
   return new Counter(newAccount.publicKey, counterAccount)
 }
 
-export const fetchAccount = async (publicKey) => {
-  const { program } = useAnchor()
-  return await program.value.account.counterAccount.fetch(publicKey)
-}
-
 export const increment = async (publicKey) => {
   const { program } = useAnchor()
   await program.value.rpc.increment({
@@ -34,4 +29,23 @@ export const increment = async (publicKey) => {
   })
   const counterAccount = await fetchAccount(publicKey)
   return new Counter(publicKey, counterAccount)
+}
+
+export const fetchAccount = async (publicKey) => {
+  const { program } = useAnchor()
+  return await program.value.account.counterAccount.fetch(publicKey)
+}
+
+export const fetchAccounts = async () => {
+  const { program } = useAnchor()
+  const conuters = await program.value.account.counterAccount.all()
+  return conuters
+      .sort((a, b) => {
+        console.log(typeof b.account.timestamp)
+        return b.account.timestamp - a.account.timestamp
+      })
+      .map(({ publicKey, account }) => {
+        console.log(account.timestamp.toString())
+        return new Counter(publicKey, account)
+      })
 }

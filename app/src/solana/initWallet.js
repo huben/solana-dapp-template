@@ -1,4 +1,4 @@
-import SolanaWallets from 'solana-wallets-vue';
+import SolanaWallets, { useWallet } from 'solana-wallets-vue';
 import 'solana-wallets-vue/styles.css';
 import {
   PhantomWalletAdapter,
@@ -26,4 +26,9 @@ const walletOptions = {
 export default function(app) {
   app.use(SolanaWallets, walletOptions)
   initAnchor()
+}
+
+export function isWalletConnected() {
+  const { connected } = useWallet()
+  return connected.value
 }

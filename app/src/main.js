@@ -8,6 +8,9 @@ import router from './router'
 
 const app = createApp(App)
 
+// app.config.compilerOptions.isCustomElement = tag => tag.startsWith('el-')
+
+
 initWallet(app)
 app.use(router)
 app.use(ElementPlus)

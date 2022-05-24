@@ -2,8 +2,8 @@
 .layout
   sidebar
   .contanier
-    navbar
-    appmain
+    navbar.navbar
+    appmain.main
 </template>
 <script>
 import sidebar from './components/sidebar'
@@ -22,6 +22,17 @@ export default {
 .layout
 .siderbar
   background: #ffffff
+  z-index: 200
 .contanier
   margin-left: 200px
+  .navbar
+    position: fixed;
+    left: 200px
+    right: 0
+    top 0
+    z-index: 100
+    background: #ffffff
+  .main
+    margin-top 80px
+    z-index: 10
 </style>

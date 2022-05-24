@@ -1,4 +1,5 @@
 pub mod counter;
+pub mod constant;
 
 use anchor_lang::prelude::*;
 
