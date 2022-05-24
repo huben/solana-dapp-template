@@ -1,6 +1,6 @@
 <template>
   <div class="counter">
-    <div class="count">{{ count }}</div>
+    <div class="count">{{ counter ? counter.count : 'None' }}</div>
     <div class="btn-group">
       <button @click="tapInit">init</button>
       <button @click="tapIncrement">increment</button>
@@ -10,14 +10,14 @@
 
 <script>
 
-import { fetchAccount, init, increment } from '../solana/api'
+import { init, increment } from '../solana/api/counter'
 export default {
   name: 'HelloWorld',
   props: {
   },
   data() {
     return {
-      count: 'null',
+      counter: null,
     }
   },
   components: {
@@ -25,24 +25,14 @@ export default {
   methods: {
     async tapInit() {
       try { 
-        await init() 
-        await this.fetchAccount()
+        this.counter = await init() 
       } catch(e) {
         alert(e)
       }
     },
-    async fetchAccount() {
-      try { 
-        const account = await fetchAccount() 
-        this.count = account.count.toString()
-      } catch(e) {
-        alert(e)
-      }
-    }, 
     async tapIncrement() {
       try { 
-        await increment()
-        await this.fetchAccount() 
+        this.counter = await increment(this.counter.publicKey)
       } catch(e) {
         alert(e)
       }

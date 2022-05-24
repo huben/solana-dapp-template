@@ -14,7 +14,7 @@ impl CounterProcessor {
   
   pub fn increment(ctx: Context<Increment>) -> Result<()> {
     let counter_account = &mut ctx.accounts.counter_account;
-    if counter_account.count >= 5 {
+    if counter_account.count >= 3 {
       return Err(CounterError::MaxCount.into());
     }
     counter_account.count += 1;

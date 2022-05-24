@@ -9,7 +9,7 @@ import {
   TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 
-import { initWorkspace } from './useWorkspace'
+import { initAnchor } from './useAnchor'
 
 const walletOptions = {
   wallets: [
@@ -25,5 +25,5 @@ const walletOptions = {
 
 export default function(app) {
   app.use(SolanaWallets, walletOptions)
-  initWorkspace()
+  initAnchor()
 }

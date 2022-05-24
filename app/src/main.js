@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 
 import App from './App.vue'
-import wallet from './solana/wallet'
+import initWallet from './solana/initWallet'
 
 const app = createApp(App)
 
-wallet(app)
+initWallet(app)
 
 app.mount('#app')
