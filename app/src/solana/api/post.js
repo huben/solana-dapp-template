@@ -1,6 +1,7 @@
 import { web3 } from '@project-serum/anchor'
 import { useAnchor } from '../useAnchor'
 import { Post } from '../model/post'
+import { pagination, totalNum } from './pagination'
 
 export const createPost = async (topic, desc) => {
   const { wallet, program } = useAnchor()
@@ -61,11 +62,26 @@ export const fetchAccount = async (publicKey) => {
 
 export const fetchAccounts = async () => {
   const { program } = useAnchor()
+  console.log(program.value.account.postAccount)
   const posts = await program.value.account.postAccount.all()
   return posts
       .sort((a, b) => {
         return b.account.timestamp - a.account.timestamp
       })
+      .map(({ publicKey, account }) => {
+        return new Post(publicKey, account)
+      })
+}
+
+export const fetchTotalNum = async () => {
+  const { program } = useAnchor()
+  return await totalNum(program.value.account.postAccount)
+}
+ 
+export const fetchAccountsByPage = async (page) => {
+  const { program } = useAnchor()
+  const postAccounts = await pagination(program.value.account.postAccount, page)
+  return postAccounts
       .map(({ publicKey, account }) => {
         return new Post(publicKey, account)
       })

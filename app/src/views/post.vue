@@ -1,13 +1,15 @@
 <template lang="pug">
 .post 
   el-button(type="primary", @click="tapCreate") Create
+  el-button(type="primary", @click="tapAll") All
 
   div(style="height: 15px")
 
   el-table(:data="posts", stripe, border, style="width: 100%")
+    ElTableColumn(type="index" width="50")
     ElTableColumn(prop="publicKey", label="publicKey", width="250")
     ElTableColumn(prop="authority", label="authority", width="250")
-    ElTableColumn(prop="topic", label="topic", width="180")
+    ElTableColumn(prop="topic", label="topic", width="100")
     ElTableColumn(prop="desc", label="desc", width="180")
     ElTableColumn(prop="accountType", label="accountType", width="150")
     ElTableColumn(prop="timestamp", label="timestamp", width="180")
@@ -20,6 +22,13 @@
       template(#default="scope")
         el-button(size="small" @click="tapEdit(scope.row, scope.$index)") Edit
         el-button(size="small" @click="tapDelete(scope.row, scope.$index)") Delete
+  div(style="height: 15px;")
+  el-pagination(
+    background 
+    layout="prev, pager, next"
+    :total="total"
+    @current-change="tapFetchAccountsByPage"
+  )
 
   el-dialog(v-model="showInputDialog", title="Create Post")
     edit-post(:post="inputPost" ref="editpost")
@@ -32,7 +41,14 @@
 <script>
 import { ElMessage, ElMessageBox } from "element-plus";
 
-import { createPost, updatePost, deletePost, fetchAccounts } from "../solana/api/post";
+import { 
+  createPost, 
+  updatePost, 
+  deletePost, 
+  fetchAccounts, 
+  fetchAccountsByPage, 
+  fetchTotalNum 
+} from "../solana/api/post";
 import timeFormat from "@/mixins/timeFormat";
 import EditPost from "@/components/post/EditPost.vue";
 export default {
@@ -40,21 +56,22 @@ export default {
   mixins: [timeFormat],
   data() {
     return {
+      total: 0,
       posts: [],
       showInputDialog: false,
       inputPost: null,
       inputIndex: -1,
     };
   },
-  mounted() {
-    this.tapAll();
+  async mounted() {
+    this.tapFetchAccountsByPage(1)
+    this.total = await fetchTotalNum()
   },
   methods: {
     async tapCreate() {
       this.showInputDialog = true;
     },
     async tapDelete(row, index) {
-      
       try {
         await ElMessageBox.confirm('即将删除此条 POST', '提示')
         await deletePost(row.publicKey);
@@ -107,6 +124,10 @@ export default {
     async tapAll() {
       this.posts = await fetchAccounts();
     },
+    async tapFetchAccountsByPage(page) {
+      console.log(page)
+      this.posts = await fetchAccountsByPage(page)
+    }
   },
   components: { EditPost },
 };
