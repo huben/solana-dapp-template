@@ -5,6 +5,8 @@ pub mod constant;
 pub mod utils;
 
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::{ program as sprogram, system_instruction };
+use crate::constant::{ LAMPORTS_PER_SOL };
 
 use counter::processor::CounterProcessor;
 use counter::instruction::*;
@@ -57,4 +59,24 @@ pub mod solana_dapp_template {
     pub fn token_burn(ctx: Context<TokenBurn>, amount: u64) -> Result<()> {
       TokenProcessor::token_burn(ctx, amount)
     }
+
+    pub fn transfer_sol(ctx: Context<SolTransfer>, amount: u64) -> Result<()> {
+      let from = &mut ctx.accounts.from.key;
+      let to = &mut ctx.accounts.to.key;
+
+      let ix = system_instruction::transfer(&from, &to, amount * LAMPORTS_PER_SOL);
+      sprogram::invoke(&ix, &[ctx.accounts.from.to_account_info(), ctx.accounts.to.to_account_info()])?;
+      Ok(())
+    }
+}
+
+#[derive(Accounts)]
+pub struct SolTransfer<'info> {
+  #[account(signer)]
+  pub authority: AccountInfo<'info>,
+  #[account(mut)]
+  pub from: AccountInfo<'info>,
+  #[account(mut)]
+  pub to: AccountInfo<'info>,
+  pub system_program: Program<'info, System>
 }

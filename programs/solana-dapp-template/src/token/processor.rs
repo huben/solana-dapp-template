@@ -17,4 +17,5 @@ impl TokenProcessor {
   pub fn token_burn(ctx: Context<TokenBurn>, amount: u64) -> Result<()> {
     burn(ctx.accounts.into(), amount)
   }
+
 }
