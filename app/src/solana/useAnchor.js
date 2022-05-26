@@ -27,5 +27,6 @@ export const initAnchor = () => {
     connection,
     provider,
     program,
+    commitment,
   }
 }

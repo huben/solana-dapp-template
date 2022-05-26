@@ -5,5 +5,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
     plugins: [new NodePolyfillPlugin()],
+    "externals": {
+      "fs": 'require("fs")',
+    },
   }
 })

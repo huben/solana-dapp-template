@@ -4,6 +4,7 @@ import layout from './layout'
 import dashboard from '@/views/dashboard'
 import counter from '@/views/counter'
 import post from '@/views/post'
+import token from '@/views/token'
 
 export const routes = [
   { 
@@ -43,6 +44,19 @@ export const routes = [
     ],
     meta: {
       title: 'post'
+    } 
+  },
+  {
+    path: '/token', component: layout, 
+    redirect: '/token/index',
+    children: [
+      {
+        path: 'index',
+        component: token,
+      }
+    ],
+    meta: {
+      title: 'token'
     } 
   },
   

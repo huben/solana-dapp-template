@@ -3,12 +3,12 @@ use anchor_lang::prelude::*;
 use crate::constant::{ ACCOUNT_TYPE_POST };
 use crate::utils::{ get_timestamp };
 use crate::post::state::{ PostAccount };
-use crate::post::instrction::{ CreatePost, UpdatePost, DeletePost };
+use crate::post::instruction::{ CreatePost, UpdatePost, DeletePost };
 use crate::post::error::{ PostError };
 
-pub struct PostProcesser;
+pub struct PostProcessor;
 
-impl PostProcesser {
+impl PostProcessor {
   pub fn create_post(ctx: Context<CreatePost>, topic: String, desc: String) -> Result<()> {
     let post_account: &mut Account<PostAccount> = &mut ctx.accounts.post_account;
     let signer: &Signer = &ctx.accounts.signer;
@@ -44,7 +44,7 @@ impl PostProcesser {
     Ok(())
   }
 
-  pub fn delete_post(ctx: Context<DeletePost>) -> Result<()> {
+  pub fn delete_post(_ctx: Context<DeletePost>) -> Result<()> {
     Ok(())
   }
 }

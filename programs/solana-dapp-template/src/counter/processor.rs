@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 // use anchor_lang::solana_program::system_program;
 
-use crate::counter::instrction::{ Init, Increment };
+use crate::counter::instruction::{ Init, Increment };
 use crate::counter::error::{ CounterError };
 use crate::constant::{ ACCOUNT_TYPE_COUNTER };
 use crate::utils::{ get_timestamp };
