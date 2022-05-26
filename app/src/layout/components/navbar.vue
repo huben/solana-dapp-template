@@ -1,15 +1,30 @@
 <template lang="pug">
 .navbar 
-  .address {{ publicKey ? publicKey : 'plz connect wallet first' }}
+  .address {{ publicKey ? publicKey : 'plz connect wallet first' }} 
+    .balance {{ lamports2sol(balance) }}
   .wallet
     wallet-multi-button  
 </template>
 <script>
 import { WalletMultiButton, useWallet } from 'solana-wallets-vue';
+import sol from '@/mixins/sol'
 export default {
   name: 'app-navbar',
+  mixins: [sol],
   components: {
     WalletMultiButton,
+  },
+  computed: {
+    balance() {
+      return this.$store.getters.balance
+    }
+  },
+  watch: {
+    connected(val) {
+      if (val) {
+        this.$store.dispatch('refreshBalance')
+      }
+    }
   },
   setup() {
     const { publicKey, connected } = useWallet()
@@ -18,6 +33,7 @@ export default {
       connected,
     }
   },
+  
 }
 </script>
 <style lang="stylus" scoped>

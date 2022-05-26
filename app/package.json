@@ -17,7 +17,8 @@
     "element-plus": "^2.2.2",
     "solana-wallets-vue": "^0.3.2",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.15",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
