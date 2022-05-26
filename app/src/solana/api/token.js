@@ -1,16 +1,63 @@
 import * as serumCmn from "@project-serum/common"
-import { web3, BN } from "@project-serum/anchor"
+import { 
+  web3, 
+  BN 
+} from "@project-serum/anchor"
 import { TokenInstructions } from "@project-serum/serum"
+// import * as bs58 from 'bs58';
 
-import { Mint, AccountInfo } from "../model/mint"
+import { Mint, AccountInfo, parseMintAccountData } from "../model/mint"
 import { useAnchor } from "../useAnchor"
 
-export async function getOwnedTokenAccounts() {
+export async function getMints() {
   const { connection, wallet } = useAnchor()
-  console.log(wallet.value.publicKey)
-  console.log(serumCmn)
-  const accounts = await serumCmn.token.getOwnedTokenAccounts(connection, new web3.PublicKey(wallet.value.publicKey))
-  console.log(accounts)
+  const res = await connection.getProgramAccounts(TokenInstructions.TOKEN_PROGRAM_ID, {
+    filters: [
+      {
+        memcmp: {
+          bytes: wallet.value.publicKey.toBase58(),
+          offset: 32,
+        }
+      },
+      {
+        dataSize: 165
+      }
+    ]
+  });
+
+  const mintPublicKeySet = new Set()
+  res.map( ({ pubkey, account }) => {
+      console.log(pubkey.toString(), account.owner.toString())
+      let { mint, owner, amount } = parseMintAccountData(account.data)
+      console.log(mint.toString(), owner.toString(), amount)
+      return mint.toString()
+  }).forEach(mint => {
+    mintPublicKeySet.add(mint)
+  })
+  
+  console.log(mintPublicKeySet)
+
+  return Promise.all(
+    [...mintPublicKeySet].map(mint => {
+      return (async () => {
+        return await getMintInfo(new web3.PublicKey(mint))
+      })()
+    })
+  ) 
+}
+
+
+
+export async function getOwnedTokenAccounts(mintAccount) {
+  const { connection, wallet } = useAnchor()
+  console.log(mintAccount)
+  const res = await connection.getTokenAccountsByOwner(wallet.value.publicKey, {
+    mint: mintAccount
+  });
+  console.log(res.value)
+  return res.value.map(({ pubkey, account: { data } }) => {
+    return new AccountInfo(pubkey, serumCmn.parseTokenAccount(data))
+  })
 }
 
 export async function createMint() {

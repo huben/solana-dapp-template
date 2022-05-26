@@ -4,6 +4,18 @@
     template(#header)
       .card-header
         span Mint
+        el-select(
+          v-model="mint"
+          placeholder="Select Mint" 
+          value-key="publicKey"
+          )
+          el-option(
+            v-for="item in mints"
+            :key="item.publicKey"
+            :label="item.publicKey"
+            :value="item"
+          )
+        el-button(@click="getMints") all mint
     el-form(v-if="mint" label-width="120px")
       <el-form-item label="publicKey">
         <el-input v-model="mint.publicKey" disabled />
@@ -17,6 +29,10 @@
       <el-form-item label="decimals">
         <el-input v-model="mint.decimals" disabled />
       </el-form-item>
+    div
+      el-button(@click="tapInit") new mint
+      el-button(@click="tapCreateAccount") NewAccount
+      el-button(@click="tapFetchAll") all accounts
 
   div(style="height: 15px")
 
@@ -33,9 +49,7 @@
           el-input(v-model="address")
         el-button(@click="tapTransferSol") transfer sol
 
-    //-   el-button(@click="tapInit") init
-    //-   el-button(@click="tapCreateAccount") NewAccount
-      //- el-button(@click="tapFetchAll") all
+      
 
   div(style="height: 15px")
 
@@ -66,6 +80,7 @@ import {
   burn,
   createTokenAccount,
   getAccountInfo,
+  getMints,
   getOwnedTokenAccounts,
 } from "../solana/api/token";
 
@@ -84,12 +99,16 @@ export default {
       amount: 100,
       address: 'GxdeFNqgmEwDssu8FSwhr7xrzM8JVTUkGSHM9ManYUG8',
       mint: null,
+      mints: [],
       accounts: [],
     };
   },
   async mounted() {
-    this.getMint();
-    this.getAccounts();
+  },
+  watch: {
+    mint() {
+      this.tapFetchAll()
+    },
   },
   methods: {
     async tapAirdrop() {
@@ -116,17 +135,23 @@ export default {
         ElMessage.error(error.message)
       }
     },
+    async getMints() {
+      if (!isWalletConnected()) {
+        ElMessage.error("plz connect wallet first");
+        return;
+      }
+
+      this.mints = await getMints()
+      console.log(this.mints)
+    },
     async getMint() {
-      const mintPublicKey = new web3.PublicKey(
-        "Bma6cfcXV7qQuTnFCpLwKhBC3aDsfVBFKYfoQ1Bwu9br"
-      );
-      this.mint = await getMintInfo(mintPublicKey);
+      this.mint = await getMintInfo(this.mint.publicKey);
     },
     async getAccounts() {
       const accounts = [
-        "F8fX3Qn9DCDBa4yJXCvA9HQ7uEfVtX2PA6Yhsyqv3LZ",
-        "8Eu4HMam3xN62zWxe5HFHpnRCJqEfsFNGRBYWPk5NQcG",
-        "GoedZxiPbMkc845oQHk7UUQAtBKBGNm58Hufom6UpMqZ",
+        "HiV76JSFc6DbbbAC48cDkABJVhm6WAMieYv2ainbRiJP",
+        "2GJPP3if3cindJoaQQqRbVHQGkLi99AEs3ViBffBHBeb",
+        "H8NRLgYfi9UHV1FnBtaA6c5kjXdKFHLBghcHqVepF8z5",
       ];
       const p = accounts
         .map((key) => {
@@ -204,14 +229,19 @@ export default {
       }
     },
     async tapFetchAll() {
-      // if (this.mint) {
-      await getOwnedTokenAccounts();
-      return;
-      // }
+      console.log('onchange', this.mint)
+      if (!isWalletConnected()) {
+        return ElMessage.error('plz connect wallet first')
+      }
+      if (this.mint) {
+        this.accounts = await getOwnedTokenAccounts(this.mint.publicKey);
+      }
     },
   },
 };
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
+.card-header > span
+  margin-right: 10px
 </style>

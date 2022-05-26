@@ -1,3 +1,7 @@
+import * as BufferLayout from 'buffer-layout';
+import { 
+  web3, 
+} from "@project-serum/anchor"
 
 export class Mint {
   constructor(publicKey, mintInfo) {
@@ -9,7 +13,6 @@ export class Mint {
     this.freezeAuthority = mintInfo.freezeAuthority
   }
 }
-
 
 export class AccountInfo {
   constructor(publicKey, accountInfo) {
@@ -26,4 +29,20 @@ export class AccountInfo {
     this.rentExemptReserve = accountInfo.rentExemptReserve
     this.closeAuthority = accountInfo.closeAuthority
   }
+}
+
+export const ACCOUNT_LAYOUT = BufferLayout.struct([
+  BufferLayout.blob(32, 'mint'),
+  BufferLayout.blob(32, 'owner'),
+  BufferLayout.nu64('amount'),
+  BufferLayout.blob(93),
+]);
+
+export function parseMintAccountData(data) {
+  let { mint, owner, amount } = ACCOUNT_LAYOUT.decode(data);
+  return {
+    mint: new web3.PublicKey(mint),
+    owner: new web3.PublicKey(owner),
+    amount,
+  };
 }
