@@ -14,7 +14,8 @@ use post::instruction::*;
 use post::processor::PostProcessor;
 
 use token::instruction::*;
-use token::processor::TokenProcessor; 
+use token::processor::{ TokenProcessor, is_valid_swap, Swap, Side };
+use token::processor::*;
 
 use sol::*;
 
@@ -60,12 +61,19 @@ pub mod solana_dapp_template {
     pub fn token_burn(ctx: Context<TokenBurn>, amount: u64) -> Result<()> {
       TokenProcessor::token_burn(ctx, amount)
     }
-
-    /** token start */
-    pub fn token_exchange(ctx: Context<TokenExchange>, amount: u64) -> Result<()> {
-      TokenProcessor::token_exchange(ctx, amount)
+    
+    #[access_control(is_valid_swap(&ctx))]
+    pub fn token_swap<'info>(
+      ctx: Context<'_, '_, '_, 'info, Swap<'info>>,
+      side: Side,
+      amount: u64,
+      min_expected_swap_amount: u64,) -> Result<()> {
+      TokenProcessor::swap(ctx, side, amount, min_expected_swap_amount)
     }
 
+    /** token start */
+
+    /** sol start */
     pub fn transfer_sol(ctx: Context<SolTransfer>, amount: u64) -> Result<()> {
       SolProcessor::anchor_transfer_sol(ctx, amount)
     }

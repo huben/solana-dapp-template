@@ -20,5 +20,6 @@ overflow-checks = true
 
 [dependencies]
 anchor-lang = "0.24.2"
-anchor-spl = "0.24.2"
+anchor-spl = { version = "0.24.2", features = ["dex"] }
 spl-token = "3.3.0"
+serum_dex = "0.5.4"
