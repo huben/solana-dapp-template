@@ -3,10 +3,9 @@ pub mod post;
 pub mod token;
 pub mod constant;
 pub mod utils;
+pub mod sol;
 
 use anchor_lang::prelude::*;
-use anchor_lang::solana_program::{ program as sprogram, system_instruction };
-use crate::constant::{ LAMPORTS_PER_SOL };
 
 use counter::processor::CounterProcessor;
 use counter::instruction::*;
@@ -16,6 +15,8 @@ use post::processor::PostProcessor;
 
 use token::instruction::*;
 use token::processor::TokenProcessor; 
+
+use sol::*;
 
 declare_id!("268H6NLNLf3Y4ycKrqwm5DufvvWbp1Pkjvx1DLZuQc51");
 
@@ -66,22 +67,7 @@ pub mod solana_dapp_template {
     }
 
     pub fn transfer_sol(ctx: Context<SolTransfer>, amount: u64) -> Result<()> {
-      let from = &mut ctx.accounts.from.key;
-      let to = &mut ctx.accounts.to.key;
-
-      let ix = system_instruction::transfer(&from, &to, amount * LAMPORTS_PER_SOL);
-      sprogram::invoke(&ix, &[ctx.accounts.from.to_account_info(), ctx.accounts.to.to_account_info()])?;
-      Ok(())
+      SolProcessor::anchor_transfer_sol(ctx, amount)
     }
 }
 
-#[derive(Accounts)]
-pub struct SolTransfer<'info> {
-  #[account(signer)]
-  pub authority: AccountInfo<'info>,
-  #[account(mut)]
-  pub from: AccountInfo<'info>,
-  #[account(mut)]
-  pub to: AccountInfo<'info>,
-  pub system_program: Program<'info, System>
-}
