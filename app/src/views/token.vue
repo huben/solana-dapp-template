@@ -3,19 +3,24 @@
   el-card
     template(#header)
       .card-header
-        span Mint
-        el-select(
-          v-model="mint"
-          placeholder="Select Mint" 
-          value-key="publicKey"
-          )
-          el-option(
-            v-for="item in mints"
-            :key="item.publicKey"
-            :label="item.publicKey"
-            :value="item"
-          )
-        el-button(@click="getMints") all mint
+        el-row(:gutter="15")
+          el-col(:span="10") 
+            el-select(
+              v-model="mint"
+              placeholder="Select Mint" 
+              value-key="publicKey"
+              )
+              el-option(
+                v-for="item in mints"
+                :key="item.publicKey"
+                :label="item.publicKey"
+                :value="item"
+              )
+            el-button(@click="getMints") all mint
+          el-col(:span="10") 
+            el-input(v-model="inputMintPublicKey")
+          el-button(@click="tapGetMint") get mint
+
     el-form(v-if="mint" label-width="120px")
       <el-form-item label="publicKey">
         <el-input v-model="mint.publicKey" disabled />
@@ -62,7 +67,7 @@
     ElTableColumn(prop="address", label="address", width="180")
     ElTableColumn(fixed="right", label="Operations", width="300")
       template(#default="scope")
-        el-button(size="small", @click="tapMintTo(scope.row, scope.$index, (scope.$index + 1) * 1000)") mint {{ (scope.$index + 1) * 1000 }}
+        el-button(size="small", @click="tapMintTo(scope.row, scope.$index, (scope.$index + 1) * 1000)" :disabled="mint.mintAuthority.toString() != scope.row.owner.toString()") mint {{ (scope.$index + 1) * 1000 }}
         el-button(size="small", @click="tapTransfer(scope.row, scope.$index, (scope.$index + 1) * 10)") tranfer {{ (scope.$index + 1) * 10 }}
         el-button(size="small", @click="tapBurn(scope.row, scope.$index, (scope.$index + 1) * 1)") burn {{ (scope.$index + 1) * 1 }}
 </template>
@@ -89,15 +94,24 @@ import {
   transfer as transferSol
 } from '../solana/api/sol'
 import { isWalletConnected } from "../solana/initWallet";
+import { useWallet } from 'solana-wallets-vue';
 
 export default {
   name: "couter-page",
   mixins: [timeFormat],
   props: {},
+  setup() {
+    const { publicKey } = useWallet();
+    return {
+      walletPublicKey: publicKey
+    }
+  },
   data() {
     return {
       amount: 100,
       address: 'GxdeFNqgmEwDssu8FSwhr7xrzM8JVTUkGSHM9ManYUG8',
+
+      inputMintPublicKey: 'Bma6cfcXV7qQuTnFCpLwKhBC3aDsfVBFKYfoQ1Bwu9br',
       mint: null,
       mints: [],
       accounts: [],
@@ -134,6 +148,12 @@ export default {
         console.error(error)
         ElMessage.error(error.message)
       }
+    },
+    tapGetMint() {
+      this.mint = {
+        publicKey: new web3.PublicKey(this.inputMintPublicKey)
+      }
+      this.getMint()
     },
     async getMints() {
       if (!isWalletConnected()) {

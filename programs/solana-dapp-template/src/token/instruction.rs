@@ -75,3 +75,30 @@ impl<'a, 'b, 'c, 'info> From<&mut TokenBurn<'info>>
     CpiContext::new(program, cpi_accounts)
   }
 }
+
+
+#[derive(Accounts)]
+pub struct TokenExchange<'info> {
+  #[account(signer)]
+  pub authority: AccountInfo<'info>,
+  #[account(mut)]
+  pub mint: AccountInfo<'info>,
+  
+  #[account(mut)]
+  pub to: AccountInfo<'info>,
+  pub token_program: AccountInfo<'info>,
+}
+
+impl<'a, 'b, 'c, 'info> From<&mut TokenExchange<'info>>
+  for CpiContext<'a, 'b, 'c, 'info, MintTo<'info>> 
+{
+  fn from(accounts: &mut TokenExchange<'info>) -> CpiContext<'a, 'b, 'c, 'info, MintTo<'info>> {
+    let cpi_accounts = MintTo {
+      mint: accounts.mint.clone(),
+      to: accounts.to.clone(),
+      authority: accounts.authority.clone(),
+    };
+    let program = accounts.token_program.clone();
+    CpiContext::new(program, cpi_accounts)
+  }
+}

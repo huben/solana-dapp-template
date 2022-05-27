@@ -11,6 +11,7 @@ import { useAnchor } from "../useAnchor"
 
 export async function getMints() {
   const { connection, wallet } = useAnchor()
+  console.log(wallet.value.publicKey)
   const res = await connection.getProgramAccounts(TokenInstructions.TOKEN_PROGRAM_ID, {
     filters: [
       {
@@ -45,8 +46,6 @@ export async function getMints() {
     })
   ) 
 }
-
-
 
 export async function getOwnedTokenAccounts(mintAccount) {
   const { connection, wallet } = useAnchor()

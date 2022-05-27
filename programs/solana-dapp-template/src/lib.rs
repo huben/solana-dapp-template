@@ -60,6 +60,11 @@ pub mod solana_dapp_template {
       TokenProcessor::token_burn(ctx, amount)
     }
 
+    /** token start */
+    pub fn token_exchange(ctx: Context<TokenExchange>, amount: u64) -> Result<()> {
+      TokenProcessor::token_exchange(ctx, amount)
+    }
+
     pub fn transfer_sol(ctx: Context<SolTransfer>, amount: u64) -> Result<()> {
       let from = &mut ctx.accounts.from.key;
       let to = &mut ctx.accounts.to.key;
