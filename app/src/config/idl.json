@@ -334,6 +334,91 @@
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "newQuestion",
+      "accounts": [
+        {
+          "name": "questionAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authorityAtaAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "desc",
+          "type": "string"
+        },
+        {
+          "name": "option1",
+          "type": "string"
+        },
+        {
+          "name": "option2",
+          "type": "string"
+        },
+        {
+          "name": "right",
+          "type": "i8"
+        }
+      ]
+    },
+    {
+      "name": "approveQuestion",
+      "accounts": [
+        {
+          "name": "questionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "rejectQuestion",
+      "accounts": [
+        {
+          "name": "questionAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -388,6 +473,50 @@
           }
         ]
       }
+    },
+    {
+      "name": "QuestionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "accountType",
+            "type": "i32"
+          },
+          {
+            "name": "authorityAta",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "i8"
+          },
+          {
+            "name": "right",
+            "type": "i8"
+          },
+          {
+            "name": "desc",
+            "type": "string"
+          },
+          {
+            "name": "option1",
+            "type": "string"
+          },
+          {
+            "name": "option2",
+            "type": "string"
+          }
+        ]
+      }
     }
   ],
   "types": [
@@ -401,6 +530,20 @@
           },
           {
             "name": "DescMaxLength"
+          }
+        ]
+      }
+    },
+    {
+      "name": "QuestionError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "RightValue"
+          },
+          {
+            "name": "QuestionStatusInit"
           }
         ]
       }
@@ -494,6 +637,6 @@
     }
   ],
   "metadata": {
-    "address": "268H6NLNLf3Y4ycKrqwm5DufvvWbp1Pkjvx1DLZuQc51"
+    "address": "9T1cysJ2PTFvVTcE9XCZdJ2cALrQg8yCckmkHXtpksU"
   }
 }

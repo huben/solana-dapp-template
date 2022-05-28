@@ -1,0 +1,62 @@
+// 选择localhost集群
+solana config set --url localhost
+
+// 选择devnet集群
+solana config set --url devnet
+
+// 申请余额
+solana airdrop 1 GxdeFNqgmEwDssu8FSwhr7xrzM8JVTUkGSHM9ManYUG8 --url https://api.devnet.solana.com
+
+// 生成账户2
+solana-keygen new --outfile /Users/edz/.config/solana/id2.json
+
+// 转帐到账户2
+solana transfer FNJwCG1ciFN3Zuc1FoAsqFtN1WNthS54nBDXfXRLPdNr 1 --allow-unfunded-recipient
+
+// 账户2余额
+solana balance FNJwCG1ciFN3Zuc1FoAsqFtN1WNthS54nBDXfXRLPdNr
+
+// 代币
+$ spl-token create-token
+Creating token Ef7FP8mhETuMXcFCEkLtooYYiDy7C995U2deL9SXt32
+
+Signature: 2GMdGZZwgNERDXuPJBYnmvkBoQUV94ZwrZs3mACEQfxXqdf2Y7EccHuAUwnUEmtwBC8W8cMwTnNvuMmqfsNU89eT
+// 代币账户
+$ spl-token create-account Ef7FP8mhETuMXcFCEkLtooYYiDy7C995U2deL9SXt32
+Creating account DMbpicjCnJckvrhT4VjsfedKZsKH3tSQEMryw9tfxmQ
+
+Signature: 2dJpgVMkjsuyh4fmgvXeMuJTHJDsTi11Dr7A4kAbXEyJmXesLGWftqRWv6ByV3iAgdZKpbPEJ5UDaAJFBQMwxmtD
+// 铸币
+spl-token mint Ef7FP8mhETuMXcFCEkLtooYYiDy7C995U2deL9SXt32 100
+// 查看代币余额
+$ spl-token accounts
+Token                                         Balance
+---------------------------------------------------------------
+Ef7FP8mhETuMXcFCEkLtooYYiDy7C995U2deL9SXt32   100
+// 转账代币到账户2 
+spl-token transfer Ef7FP8mhETuMXcFCEkLtooYYiDy7C995U2deL9SXt32 50 FNJwCG1ciFN3Zuc1FoAsqFtN1WNthS54nBDXfXRLPdNr --fund-recipient
+
+// nft 
+$ spl-token create-token --decimals 0
+Creating token Cda58cAaFFD5XY8uziEECK5aGi9GsaNVbX42s1RyEtwZ
+// nft 账户
+spl-token create-account Cda58cAaFFD5XY8uziEECK5aGi9GsaNVbX42s1RyEtwZ
+//  nft 铸造
+$ spl-token mint Cda58cAaFFD5XY8uziEECK5aGi9GsaNVbX42s1RyEtwZ 1
+Minting 1 tokens
+  Token: Cda58cAaFFD5XY8uziEECK5aGi9GsaNVbX42s1RyEtwZ
+  Recipient: 3CLQMbZuanCDXurgT2XGUWU7jjVaWKLgJawVURooyKfA
+// 关闭 nft 铸造；再次铸造失败
+spl-token authorize Cda58cAaFFD5XY8uziEECK5aGi9GsaNVbX42s1RyEtwZ mint --disable
+
+// 编译
+cargo build-bpf --manifest-path=Cargo.toml --bpf-out-dir=dist/program
+
+// 部署
+solana deploy dist/program/program.so --url https://api.devnet.solana.com
+
+// 产看 programId
+anchor keys list
+
+// 输出日志
+// solana logs --url localhost

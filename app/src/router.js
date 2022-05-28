@@ -6,6 +6,8 @@ import counter from '@/views/counter'
 import post from '@/views/post'
 import token from '@/views/token'
 
+import question from '@/views/question'
+
 export const routes = [
   { 
     path: '/dashboard', component: layout, 
@@ -57,6 +59,19 @@ export const routes = [
     ],
     meta: {
       title: 'token'
+    } 
+  },
+  {
+    path: '/question', component: layout, 
+    redirect: '/question/index',
+    children: [
+      {
+        path: 'index',
+        component: question,
+      }
+    ],
+    meta: {
+      title: 'question'
     } 
   },
   

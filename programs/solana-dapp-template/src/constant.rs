@@ -8,4 +8,8 @@ pub const LENGTH_STRING_PREFIX: usize = 4;
 pub const ACCOUNT_TYPE_COUNTER: i32 = 1;
 pub const ACCOUNT_TYPE_POST: i32 = 2;
 
+pub const ACCOUNT_TYPE_QUESTION: i32 = 3;
+pub const ACCOUNT_TYPE_USER: i32 = 4;
+pub const ACCOUNT_TYPE_REPLY: i32 = 5;
+
 pub const LAMPORTS_PER_SOL: u64 = 1000000000;

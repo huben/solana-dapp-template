@@ -7,8 +7,8 @@ import { useAnchor } from '../useAnchor'
  * @param {*} account program.value.account.postAccount
  * @param {*} page 
  */
-export async function pagination(account, page, size = 10) {
-  const pubkeys = await getPubkeys(account, page, size)
+export async function pagination(account, page, size = 10, filters = []) {
+  const pubkeys = await getPubkeys(account, page, size, filters)
   const pageAccounts = await account.fetchMultiple(pubkeys)
   return pageAccounts.map((account, i) => {
     return {
@@ -18,7 +18,7 @@ export async function pagination(account, page, size = 10) {
   })
 }
 
-export async function totalNum(account) {
+export async function totalNum(account, filters) {
   const { program, connection } = useAnchor()
 
   const discriminatorFilter = {
@@ -26,16 +26,17 @@ export async function totalNum(account) {
   } 
 
   const allAccounts = await connection.getProgramAccounts(program.value.programId, {
-    filters: [ discriminatorFilter ],
+    filters: [ discriminatorFilter, ...filters ],
     dataSlice: {
       offset: 0,
       length: 0,
     }
   })
+  console.log(allAccounts.length)
   return allAccounts.length
 }
 
-async function getPubkeys(account, page, size) {
+async function getPubkeys(account, page, size, filters = []) {
   const { program, connection } = useAnchor()
 
   const discriminatorFilter = {
@@ -43,7 +44,7 @@ async function getPubkeys(account, page, size) {
   } 
 
   const allPubkeyWithTs = await connection.getProgramAccounts(program.value.programId, {
-    filters: [ discriminatorFilter ],
+    filters: [ discriminatorFilter, ...filters ],
     dataSlice: {
       offset: 8 + 32, // LENGTH_DISCRIMINATOR + LENGTH_PUBLIC_KEY
       length: 8,  // LENGTH_TIMESTAMP

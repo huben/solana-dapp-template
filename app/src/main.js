@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
+import ElementPlus, { ElMessage } from 'element-plus'
 import 'element-plus/dist/index.css'
 
 import App from './App.vue'
-import initWallet from './solana/initWallet'
+import initWallet, { isWalletConnected } from './solana/initWallet'
 import router from './router'
 import store from './store'
 
@@ -13,5 +13,14 @@ initWallet(app)
 app.use(router)
 app.use(store)
 app.use(ElementPlus)
+
+app.config.globalProperties.$checkWallet = () => {
+  if (!isWalletConnected()) {
+    ElMessage.error('plz connect wallet first')
+    return false
+  } else {
+    return true
+  }
+}
 
 app.mount('#app')

@@ -4,6 +4,7 @@ pub mod token;
 pub mod constant;
 pub mod utils;
 pub mod sol;
+pub mod qa;
 
 use anchor_lang::prelude::*;
 
@@ -19,7 +20,10 @@ use token::processor::*;
 
 use sol::*;
 
-declare_id!("268H6NLNLf3Y4ycKrqwm5DufvvWbp1Pkjvx1DLZuQc51");
+use qa::processor::*;
+use qa::instruction::*;
+
+declare_id!("9T1cysJ2PTFvVTcE9XCZdJ2cALrQg8yCckmkHXtpksU");
 
 #[program]
 pub mod solana_dapp_template {
@@ -62,6 +66,7 @@ pub mod solana_dapp_template {
       TokenProcessor::token_burn(ctx, amount)
     }
     
+    // swap not impl
     #[access_control(is_valid_swap(&ctx))]
     pub fn token_swap<'info>(
       ctx: Context<'_, '_, '_, 'info, Swap<'info>>,
@@ -77,5 +82,25 @@ pub mod solana_dapp_template {
     pub fn transfer_sol(ctx: Context<SolTransfer>, amount: u64) -> Result<()> {
       SolProcessor::anchor_transfer_sol(ctx, amount)
     }
-}
 
+    /** q&a start */
+    pub fn new_question(
+        ctx: Context<NewQuestion>,
+        desc: String,
+        option1: String,
+        option2: String,
+        right: i8,
+    ) -> Result<()> {
+      QaProcessor::new_question(ctx, desc, option1, option2, right)
+    }
+    pub fn approve_question(
+        ctx: Context<ApproveQuestion>
+    ) -> Result<()> {
+      QaProcessor::approve_question(ctx)
+    }
+    pub fn reject_question(
+      ctx: Context<RejectQuestion>
+    ) -> Result<()> {
+      QaProcessor::reject_question(ctx)
+    }
+}
