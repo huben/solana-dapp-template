@@ -46,7 +46,7 @@
     @current-change="getQuestions"
   )
 
-  el-dialog(v-model="showInputDialog", title="Create Post")
+  el-dialog(v-model="showInputDialog", title="Create Question")
     edit-question(ref="editquestion")
     template(#footer)
       span(class="dialog-footer")

@@ -419,6 +419,109 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "newAnwser",
+      "accounts": [
+        {
+          "name": "anwserAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "questionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "enableAnwser",
+      "accounts": [
+        {
+          "name": "anwserAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "questionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "anwser",
+          "type": "i8"
+        }
+      ]
+    },
+    {
+      "name": "approveAnwser",
+      "accounts": [
+        {
+          "name": "anwserAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -517,6 +620,42 @@
           }
         ]
       }
+    },
+    {
+      "name": "AnwserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "accountType",
+            "type": "i32"
+          },
+          {
+            "name": "question",
+            "type": "publicKey"
+          },
+          {
+            "name": "ata",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "i8"
+          },
+          {
+            "name": "anwser",
+            "type": "i8"
+          }
+        ]
+      }
     }
   ],
   "types": [
@@ -544,6 +683,9 @@
           },
           {
             "name": "QuestionStatusInit"
+          },
+          {
+            "name": "AnwserStatusRight"
           }
         ]
       }

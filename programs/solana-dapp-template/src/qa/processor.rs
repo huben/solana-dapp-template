@@ -4,7 +4,7 @@ use anchor_spl::token;
 use crate::qa::instruction::*;
 use crate::qa::error::*;
 use crate::utils::{ get_timestamp };
-use crate::constant::{ ACCOUNT_TYPE_QUESTION, LAMPORTS_PER_SOL };
+use crate::constant::{ ACCOUNT_TYPE_QUESTION, ACCOUNT_TYPE_ANWSER, LAMPORTS_PER_SOL };
 
 pub struct QaProcessor;
 
@@ -60,6 +60,60 @@ impl QaProcessor {
     }
     question_account.status = 2;
     Ok(())
+  }
+
+  pub fn new_anwser(
+    ctx: Context<NewAnwser>,
+  ) -> Result<()> {
+    let anwser_account = &mut ctx.accounts.anwser_account;
+    let question_account = &mut ctx.accounts.question_account;
+    let ata = &mut ctx.accounts.ata;
+    let signer: &Signer = &ctx.accounts.signer;
+    
+    anwser_account.authority = *signer.key;
+    anwser_account.timestamp = get_timestamp();
+    anwser_account.account_type = ACCOUNT_TYPE_ANWSER;
+    anwser_account.question = question_account.key();
+    anwser_account.ata = *ata.key;
+    anwser_account.status = 0;
+    
+    Ok(())
+  }
+
+  pub fn enable_anwser(
+    ctx: Context<EnableAnwser>,
+    anwser: i8,
+  ) -> Result<()> {
+    let anwser_account = &mut ctx.accounts.anwser_account;
+    let question_account = &mut ctx.accounts.question_account;
+
+    // 校验题目
+    if anwser_account.question != question_account.key() {
+    }
+    // 校验 ata from
+
+    if anwser == question_account.right {
+      anwser_account.status = 1
+    } else {
+      anwser_account.status = 2
+    }
+    anwser_account.anwser = anwser;
+    token::transfer(ctx.accounts.into(), 1 * LAMPORTS_PER_SOL)
+  }
+
+  pub fn approve_anwser(
+    ctx: Context<ApproveAnwser>
+  ) -> Result<()> {
+
+    let anwser_account = &mut ctx.accounts.anwser_account;
+    if anwser_account.status != 1 {
+      return Err(QuestionError::AnwserStatusRight.into());
+    } else {
+      msg!("{:#?}", anwser_account);
+    }
+    anwser_account.status = 3;
+    token::transfer(ctx.accounts.into(), 2 * LAMPORTS_PER_SOL)
+
   }
 }
 

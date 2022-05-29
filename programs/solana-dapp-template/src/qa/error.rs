@@ -7,4 +7,7 @@ pub enum QuestionError {
 
     #[msg("question status not init")]
     QuestionStatusInit,
+
+    #[msg("anwser status must right")]
+    AnwserStatusRight,
 }

@@ -18,7 +18,7 @@ export async function pagination(account, page, size = 10, filters = []) {
   })
 }
 
-export async function totalNum(account, filters) {
+export async function totalNum(account, filters = []) {
   const { program, connection } = useAnchor()
 
   const discriminatorFilter = {
@@ -32,11 +32,27 @@ export async function totalNum(account, filters) {
       length: 0,
     }
   })
-  console.log(allAccounts.length)
   return allAccounts.length
 }
 
-async function getPubkeys(account, page, size, filters = []) {
+export async function allPubkeys(account, filters = []) {
+  const { program, connection } = useAnchor()
+
+  const discriminatorFilter = {
+    memcmp: account.coder.accounts.memcmp(account._idlAccount.name)
+  } 
+
+  const allAccounts = await connection.getProgramAccounts(program.value.programId, {
+    filters: [ discriminatorFilter, ...filters ],
+    dataSlice: {
+      offset: 0,
+      length: 0,
+    }
+  })
+  return allAccounts
+}
+
+export async function getAllPubkeyWithTs(account, filters = []) {
   const { program, connection } = useAnchor()
 
   const discriminatorFilter = {
@@ -50,7 +66,11 @@ async function getPubkeys(account, page, size, filters = []) {
       length: 8,  // LENGTH_TIMESTAMP
     }
   })
+  return allPubkeyWithTs
+}
 
+async function getPubkeys(account, page, size, filters = []) {
+  const allPubkeyWithTs = await getAllPubkeyWithTs(account, filters)
   // solana account
   const sortPubkeys = allPubkeyWithTs
     .map(({ pubkey, account }) => { 

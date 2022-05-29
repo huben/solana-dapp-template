@@ -7,6 +7,9 @@ import post from '@/views/post'
 import token from '@/views/token'
 
 import question from '@/views/question'
+import anwser from '@/views/anwser'
+
+import anwserRank from '@/views/anwserRank'
 
 export const routes = [
   { 
@@ -74,10 +77,33 @@ export const routes = [
       title: 'question'
     } 
   },
+  {
+    path: '/anwser', component: layout, 
+    redirect: '/anwser/index',
+    children: [
+      {
+        path: 'index',
+        component: anwser,
+      }
+    ],
+    meta: {
+      title: 'anwser'
+    } 
+  },
+  
   
 ]
 
 export default createRouter({
   history: createWebHashHistory(),
-  routes,
+  routes: [ 
+    ...routes, 
+    {
+      path: '/anwser/rank', 
+      component: anwserRank, 
+      meta: {
+        title: '天梯榜'
+      } 
+    },
+  ],
 })

@@ -1,16 +1,15 @@
 import bs58 from 'bs58'
 
-export class Question {
+export class Anwser {
   constructor(publicKey, accountInfo) {
     this.publicKey = publicKey
     this.authority = accountInfo.authority
     this.timestamp = accountInfo.timestamp
     this.accountType = accountInfo.accountType
-    this.authorityAta = accountInfo.authorityAta
-    this.desc = accountInfo.desc
-    this.option1 = accountInfo.option1
-    this.option2 = accountInfo.option2
+    this.question = accountInfo.question
+    this.ata = accountInfo.ata
     this.status = accountInfo.status
+    this.anwser = accountInfo.anwser
   }
 }
 
@@ -19,7 +18,7 @@ export const statusFilter = status => {
   buf.writeInt8(status, 0)
   return {
     memcmp: {
-      offset: 8 + 32 + 8 + 4 + 32,
+      offset: 8 + 32 + 8 + 4 + 32 + 32,
       bytes: bs58.encode(buf),
     }
   }

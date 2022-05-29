@@ -103,4 +103,21 @@ pub mod solana_dapp_template {
     ) -> Result<()> {
       QaProcessor::reject_question(ctx)
     }
+
+    pub fn new_anwser(
+      ctx: Context<NewAnwser>,
+    ) -> Result<()> {
+      QaProcessor::new_anwser(ctx)
+    }
+    pub fn enable_anwser(
+      ctx: Context<EnableAnwser>,
+      anwser: i8,
+    ) -> Result<()> {
+      QaProcessor::enable_anwser(ctx, anwser)
+    }
+    pub fn approve_anwser(
+      ctx: Context<ApproveAnwser>
+    ) -> Result<()> {
+      QaProcessor::approve_anwser(ctx)
+    }
 }
