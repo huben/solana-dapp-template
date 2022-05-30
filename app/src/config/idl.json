@@ -447,22 +447,6 @@
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "enableAnwser",
-      "accounts": [
-        {
-          "name": "anwserAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "questionAccount",
-          "isMut": false,
-          "isSigner": false
         },
         {
           "name": "authority",

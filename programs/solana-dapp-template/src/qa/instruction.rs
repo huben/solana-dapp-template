@@ -65,13 +65,7 @@ pub struct NewAnwser<'info> {
   #[account(mut)]
   pub signer: Signer<'info>,
   pub system_program: Program<'info, System>,
-}
 
-#[derive(Accounts)]
-pub struct EnableAnwser<'info> {
-  #[account(mut)]
-  pub anwser_account: Account<'info, AnwserAccount>,
-  pub question_account: Account<'info, QuestionAccount>,
   #[account(signer)]
   pub authority: AccountInfo<'info>,
   #[account(mut)]
@@ -81,10 +75,10 @@ pub struct EnableAnwser<'info> {
   pub token_program: AccountInfo<'info>,
 }
 
-impl<'a, 'b, 'c, 'info> From<&mut EnableAnwser<'info>>
+impl<'a, 'b, 'c, 'info> From<&mut NewAnwser<'info>>
   for CpiContext<'a, 'b, 'c, 'info, Transfer<'info>> 
 {
-  fn from(accounts: &mut EnableAnwser<'info>) -> CpiContext<'a, 'b, 'c, 'info, Transfer<'info>> {
+  fn from(accounts: &mut NewAnwser<'info>) -> CpiContext<'a, 'b, 'c, 'info, Transfer<'info>> {
     let cpi_accounts = Transfer {
       authority: accounts.authority.clone(),
       from: accounts.from.clone(),

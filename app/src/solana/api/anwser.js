@@ -45,7 +45,10 @@ export async function createAnwser(
   const { program, wallet } = useAnchor()
   const ata = await getAtAAccountInfo()
   const newAnwserAccount = web3.Keypair.generate()
+
+  const developer = new web3.PublicKey('Edw6vhTzBRJ9VMVjTm9rXPkDqaptC3XMMSGovYxuuR7T')
   await program.value.rpc.newAnwser(
+    anwser,
     {
       accounts: {
         anwserAccount: newAnwserAccount.publicKey,
@@ -53,33 +56,14 @@ export async function createAnwser(
         ata: ata.publicKey,
         signer: wallet.value.publicKey,
         systemProgram: web3.SystemProgram.programId,
-      },
-      signers: [ newAnwserAccount ]
-    }
-  );
-  await enableAnwser(newAnwserAccount.publicKey, question, ata.publicKey, anwser)
-}
 
-export async function enableAnwser(
-    anwserAccount,
-    question, 
-    ata,
-    anwser
-  ) {
-  const { program, wallet } = useAnchor()
-  const developer = new web3.PublicKey('Edw6vhTzBRJ9VMVjTm9rXPkDqaptC3XMMSGovYxuuR7T')
-  await program.value.rpc.enableAnwser(
-    anwser,
-    {
-      accounts: {
-        anwserAccount: anwserAccount,
-        questionAccount: question,
         authority: wallet.value.publicKey,
         mint: NATIVE_MINT,
-        from: ata,
+        from: ata.publicKey,
         to: developer,
         tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID
       },
+      signers: [ newAnwserAccount ]
     }
   );
 }
