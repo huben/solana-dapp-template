@@ -1,6 +1,6 @@
 import { web3 } from '@project-serum/anchor'
 import { TokenInstructions } from '@project-serum/serum'
-
+import bs58 from 'bs58'
 import { 
   NATIVE_MINT,
 } from "@/lib/spl-token";
@@ -31,7 +31,13 @@ export async function createQuestion(
     right
   ) {
   const { program, wallet } = useAnchor()
-  console.log(desc, 
+  
+  desc = bs58.encode(Buffer.from(desc))
+  option1 = bs58.encode(Buffer.from(option1))
+  option2 = bs58.encode(Buffer.from(option2))
+
+  console.log(
+    desc, 
     option1, 
     option2, 
     right)
