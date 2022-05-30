@@ -1,11 +1,11 @@
 
 
 ### 前置安装
-node.js
-rust https://kaisery.github.io/trpl-zh-cn/
-solana https://docs.solana.com/cli/install-solana-cli-tools
-@solana/web3 https://solana-labs.github.io/solana-web3.js/
-anchor https://project-serum.github.io/anchor/getting-started/introduction.html
++ node.js
++ rust https://kaisery.github.io/trpl-zh-cn/
++ solana https://docs.solana.com/cli/install-solana-cli-tools
++ @solana/web3 https://solana-labs.github.io/solana-web3.js/
++ anchor https://project-serum.github.io/anchor/getting-started/introduction.html
 
 ### 启动本地节点
 ```
