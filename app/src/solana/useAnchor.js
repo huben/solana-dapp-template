@@ -6,7 +6,7 @@ import { Program, AnchorProvider } from '@project-serum/anchor'
 import idl from '../config/idl.json';
 import cluster from '../config/cluster'
 
-const programId = new PublicKey(idl.metadata.address);
+const programId = new PublicKey(cluster.idl);
 
 // const preflightCommitment = 'processed'
 const commitment = 'confirmed'

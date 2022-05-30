@@ -12,7 +12,7 @@ function deploy() {
   const args = [
     'deploy',
     "--provider.cluster",
-    cluster.net,
+    cluster.uri,
     "--provider.wallet",
     `${developerKeypairFile}`
   ]

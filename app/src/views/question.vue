@@ -23,7 +23,7 @@
     ElTableColumn(prop="desc", label="desc", width="260")
     ElTableColumn(prop="option", label="option", width="260")
       template(#default="scope")
-        div {{ `[${scope.row.option1}, ${scope.row.option1}]` }}
+        div {{ `[${scope.row.option1}, ${scope.row.option2}]` }}
     ElTableColumn(prop="status", label="status", width="100")
       template(#default="scope")
         div {{ statusFilter(scope.row.status) }}
@@ -119,7 +119,7 @@ export default {
         try {
           await createQuestion(desc, option1, option2, right)
           this.$refs.editquestion.clear()
-          this.getQuestions()
+          this.getQuestions(1)
         } catch (error) {
           ElMessage.error(error.message)
         }
