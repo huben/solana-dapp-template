@@ -8,9 +8,8 @@ import {
   getAtAAccountInfo
 } from './sol'
 import { useAnchor } from '../useAnchor'
-import { pagination, totalNum, allPubkeys } from './pagination'
+import { pagination, totalNum } from './pagination'
 import { Anwser } from '../model/anwser'
-import { statusFilter } from '../model/question'
 
 export const fetchAnwserTotalNum = async (filters = []) => {
   const { program } = useAnchor()
@@ -88,16 +87,4 @@ export async function approveAnwser(anwserAccount, anwserAta) {
     }
   })
   return await fetchAnwser(anwserAccount)
-}
-
-export async function randomQuestion() {
-  const filters = [ statusFilter(1) ]
-  const { program } = useAnchor()
-  const questions = await allPubkeys(program.value.account.questionAccount, filters)
-  return questions[randomNum(0, questions.length)].pubkey
-}
-
-// [min, max)
-function randomNum(min, max){ 
-  return parseInt(Math.random()*(max - min) + min, 10); 
 }

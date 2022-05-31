@@ -7,13 +7,14 @@ import post from '@/views/post'
 import token from '@/views/token'
 
 import question from '@/views/question'
-import anwser from '@/views/anwser'
 
-import anwserRank from '@/views/anwserRank'
+import anwserAdmin from '@/views/anwser/admin/anwser'
+import anwserAdminNormal from '@/views/anwser/admin/normal'
 
-import anwserNewbie from '@/views/anwser/newbie'
-import anwserNormal from '@/views/anwser/normal'
-import anwserKnowbie from '@/views/anwser/knowbie'
+import anwserFrontRank from '@/views/anwser/front/rank'
+import anwserFrontNewbie from '@/views/anwser/front/newbie'
+import anwserFrontNormal from '@/views/anwser/front/normal'
+import anwserFrontKnowbie from '@/views/anwser/front/knowbie'
 
 export const routes = [
   { 
@@ -82,20 +83,31 @@ export const routes = [
     } 
   },
   {
-    path: '/anwser', component: layout, 
-    redirect: '/anwser/index',
+    path: '/anwser/admin', component: layout, 
+    redirect: '/anwser/admin/index',
     children: [
       {
         path: 'index',
-        component: anwser,
+        component: anwserAdmin,
       }
     ],
     meta: {
       title: 'anwser'
     } 
   },
-  
-  
+  {
+    path: '/anwser/admin/normal', component: layout, 
+    redirect: '/anwser/admin/normal/index',
+    children: [
+      {
+        path: 'index',
+        component: anwserAdminNormal,
+      }
+    ],
+    meta: {
+      title: 'anwser 人机'
+    } 
+  },
 ]
 
 export default createRouter({
@@ -105,19 +117,19 @@ export default createRouter({
     {
       path: '/anwser/rank', 
       redirect: '/anwser/rank/newbie',
-      component: anwserRank, 
+      component: anwserFrontRank, 
       children: [
         {
           path: 'newbie',
-          component: anwserNewbie,
+          component: anwserFrontNewbie,
         },
         {
           path: 'normal',
-          component: anwserNormal,
+          component: anwserFrontNormal,
         },
         {
           path: 'knowbie',
-          component: anwserKnowbie,
+          component: anwserFrontKnowbie,
         },
       ],
       meta: {

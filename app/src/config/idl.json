@@ -508,10 +508,10 @@
       "args": []
     },
     {
-      "name": "manVsMachine",
+      "name": "newManVsMachine",
       "accounts": [
         {
-          "name": "manVsMachine",
+          "name": "manVsMachineAccount",
           "isMut": true,
           "isSigner": true
         },
@@ -557,6 +557,73 @@
           "type": "i8"
         }
       ]
+    },
+    {
+      "name": "anwserManVsMachine",
+      "accounts": [
+        {
+          "name": "manVsMachineAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "questionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "anwser",
+          "type": "i8"
+        }
+      ]
+    },
+    {
+      "name": "approveManVsMachine",
+      "accounts": [
+        {
+          "name": "manVsMachineAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -693,7 +760,7 @@
       }
     },
     {
-      "name": "ManVsMachine",
+      "name": "ManVsMachineAccount",
       "type": {
         "kind": "struct",
         "fields": [
@@ -714,7 +781,15 @@
             "type": "i8"
           },
           {
-            "name": "finishCount",
+            "name": "successCount",
+            "type": "i8"
+          },
+          {
+            "name": "errorCount",
+            "type": "i8"
+          },
+          {
+            "name": "status",
             "type": "i8"
           }
         ]
@@ -749,6 +824,9 @@
           },
           {
             "name": "AnwserStatusRight"
+          },
+          {
+            "name": "ManVsMachineAnwserAll"
           }
         ]
       }

@@ -10,4 +10,8 @@ pub enum QuestionError {
 
     #[msg("anwser status must right")]
     AnwserStatusRight,
+
+    #[msg("ready anwser all")]
+    ManVsMachineAnwserAll,
+
 }

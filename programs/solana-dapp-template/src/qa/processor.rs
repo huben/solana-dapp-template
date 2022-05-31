@@ -104,24 +104,76 @@ impl QaProcessor {
     token::transfer(ctx.accounts.into(), 2 * LAMPORTS_PER_SOL)
   }
 
-  pub fn man_vs_machine(
+  pub fn new_man_vs_machine(
     ctx: Context<NewManVsMachine>,
     count: i8,
   ) -> Result<()> {
 
-    let man_vs_machine = &mut ctx.accounts.man_vs_machine;
+    let man_vs_machine_account = &mut ctx.accounts.man_vs_machine_account;
     let ata: &AccountInfo = &ctx.accounts.ata;
     let signer: &Signer = &ctx.accounts.signer;
 
-    man_vs_machine.authority = *signer.key;
-    man_vs_machine.timestamp = get_timestamp();
-    man_vs_machine.ata = *ata.key;
-    man_vs_machine.count = count;
-    man_vs_machine.success_count = 0;
-    man_vs_machine.error_count = 0;
+    man_vs_machine_account.authority = *signer.key;
+    man_vs_machine_account.timestamp = get_timestamp();
+    man_vs_machine_account.ata = *ata.key;
+    man_vs_machine_account.count = count;
+    man_vs_machine_account.success_count = 0;
+    man_vs_machine_account.error_count = 0;
+    man_vs_machine_account.status = 0;
 
     let count_u64 = count as u64;
     token::transfer(ctx.accounts.into(), count_u64 * LAMPORTS_PER_SOL)
   }
+
+  pub fn anwser_man_vs_machine(
+    ctx: Context<AnwserManVsMachine>,
+    anwser: i8,
+  ) -> Result<()> {
+    let man_vs_machine_account = &mut ctx.accounts.man_vs_machine_account;
+    let question_account = &mut ctx.accounts.question_account;
+
+    let finish_count = man_vs_machine_account.success_count + man_vs_machine_account.error_count;
+
+    if finish_count >= man_vs_machine_account.count {
+      return Err(QuestionError::ManVsMachineAnwserAll.into());
+    }
+
+    if (finish_count + 1) == man_vs_machine_account.count {
+      man_vs_machine_account.status = 1;
+    }
+
+    if anwser == question_account.right {
+      man_vs_machine_account.success_count += 1;
+    } else {
+      man_vs_machine_account.error_count += 1;
+    }
+    Ok(())
+  }
+
+  pub fn approve_man_vs_machine(
+    ctx: Context<ApproveManVsMachine>,
+  ) -> Result<()> {
+    let man_vs_machine_account = &mut ctx.accounts.man_vs_machine_account;
+
+    if man_vs_machine_account.status != 1 {
+      return Err(QuestionError::ManVsMachineAnwserAll.into());
+    }
+
+    let error_f32 = man_vs_machine_account.error_count as f32;
+    let count_f32 = man_vs_machine_account.count as f32;
+    let error_percent: f32 = error_f32 / count_f32;
+    if error_percent > 0.4 {
+      man_vs_machine_account.status = 3;
+    } else {
+      man_vs_machine_account.status = 2;
+    }
+
+    let count_u64 = man_vs_machine_account.count as u64;
+    token::transfer(ctx.accounts.into(), count_u64 * 3 * LAMPORTS_PER_SOL)
+  }
+
 }
+
+
+
 

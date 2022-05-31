@@ -53,13 +53,14 @@ import { ElMessage } from 'element-plus'
 import { useWallet } from 'solana-wallets-vue';
 import timeFormat from '@/mixins/timeFormat'
 import sol from "@/mixins/sol";
+import bus from '@/bus'
 
 import {
   airdrop,
   getAtAAccountInfo,
   wrappedSOL,
   unwrapSOL,
-} from '../solana/api/sol'
+} from '@/solana/api/sol'
 
 import navbar from '@/layout/components/navbar.vue'
 
@@ -82,6 +83,11 @@ export default {
       account: null,
       
     }
+  },
+  mounted() {
+    bus.$on('refreshAccount', () => {
+      this.getAccount()
+    })
   },
   methods: {
     async tapMenu(path) {

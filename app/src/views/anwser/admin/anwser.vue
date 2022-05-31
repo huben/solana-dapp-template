@@ -53,12 +53,12 @@ import {
   getAnwsers,
   createAnwser,
   approveAnwser,
-} from '../solana/api/anwser'
+} from '@/solana/api/anwser'
 import {
   fetchQuestion
-} from '../solana/api/question'
+} from '@/solana/api/question'
 import EditAnwser from "@/components/post/EditAnwser.vue";
-import { statusFilter as fetchStatusFilter } from '../solana/model/anwser'
+import { statusFilter as fetchStatusFilter } from '@/solana/model/anwser'
 export default {
   name: 'anwser-index',
   mixins: [timeFormat],

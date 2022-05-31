@@ -35,40 +35,29 @@
 <script>
 import { ElMessage } from 'element-plus'
 
-import { useWallet } from 'solana-wallets-vue';
 import timeFormat from '@/mixins/timeFormat'
 
-import {
-  getAtAAccountInfo,
-} from '@/solana/api/sol'
 import { 
   all,
   createAnwser,
   approveAnwser,
-  randomQuestion,
 } from '@/solana/api/anwser'
 import {
-  fetchQuestion
+  fetchQuestion,
+  randomQuestion,
 } from '@/solana/api/question'
 
 import EditAnwser from "@/components/post/EditAnwser.vue";
 import { statusFilter as fetchStatusFilter } from '@/solana/model/anwser'
+import bus from '@/bus'
 export default {
   name: 'anwser-newbie',
   mixins: [timeFormat],
   components: {
     EditAnwser,
   },
-  setup() {
-    const { publicKey } = useWallet()
-    return {
-      publicKey, 
-    }
-  },
   data() {
     return {
-      amount: 1,
-      amountWrap: 2,
       account: null,
       
       rightFilters: [fetchStatusFilter(1)],
@@ -80,11 +69,6 @@ export default {
       showInputDialog: false,
 
       question: null,
-    }
-  },
-  watch: {
-    publicKey() {
-      this.getAccount()
     }
   },
   computed: {
@@ -133,9 +117,9 @@ export default {
     this.getAll()
   },
   methods: {
-    async getAccount() {
+    async refreshAccount() {
       if (this.$checkWallet()) {
-        this.account = await getAtAAccountInfo()
+        bus.$emit('refreshAccount')
       }
     },
     async getAll() {
@@ -164,7 +148,7 @@ export default {
           await createAnwser(this.question.publicKey, anwser)
           this.$refs.editanwser.clear()
           this.getAll()
-          this.getAccount()
+          this.refreshAccount()
         } catch (error) {
           ElMessage.error(error.message)
         }

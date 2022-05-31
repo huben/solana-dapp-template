@@ -119,10 +119,23 @@ pub mod solana_dapp_template {
       QaProcessor::approve_anwser(ctx)
     }
 
-    pub fn man_vs_machine(
+    pub fn new_man_vs_machine(
       ctx: Context<NewManVsMachine>,
       count: i8,
     ) -> Result<()> {
-      QaProcessor::man_vs_machine(ctx, count)
+      QaProcessor::new_man_vs_machine(ctx, count)
+    }
+
+    pub fn anwser_man_vs_machine(
+      ctx: Context<AnwserManVsMachine>,
+      anwser: i8,
+    ) -> Result<()> {
+      QaProcessor::anwser_man_vs_machine(ctx, anwser)
+    }
+
+    pub fn approve_man_vs_machine(
+      ctx: Context<ApproveManVsMachine>,
+    ) -> Result<()> {
+      QaProcessor::approve_man_vs_machine(ctx)
     }
 }
