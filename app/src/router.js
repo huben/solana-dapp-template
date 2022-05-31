@@ -115,6 +115,10 @@ export default createRouter({
   routes: [ 
     ...routes, 
     {
+      path: '/',
+      redirect: '/dashboard/index',
+    },
+    {
       path: '/anwser/rank', 
       redirect: '/anwser/rank/newbie',
       component: anwserFrontRank, 
