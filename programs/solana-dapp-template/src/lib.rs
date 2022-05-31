@@ -24,8 +24,9 @@ use qa::processor::*;
 use crate::qa::instruction::question::*;
 use crate::qa::instruction::anwser::*;
 use crate::qa::instruction::mainvsmachine::*;
+use crate::qa::instruction::hunt::*;
 
-declare_id!("9T1cysJ2PTFvVTcE9XCZdJ2cALrQg8yCckmkHXtpksU");
+declare_id!("CqxktH2bLyLDHTUPXh6FVfHn7QmV4pUq48B29FR3k6op");
 
 #[program]
 pub mod solana_dapp_template {
@@ -119,6 +120,7 @@ pub mod solana_dapp_template {
       QaProcessor::approve_anwser(ctx)
     }
 
+    // 人机对抗
     pub fn new_man_vs_machine(
       ctx: Context<NewManVsMachine>,
       count: i8,
@@ -137,5 +139,20 @@ pub mod solana_dapp_template {
       ctx: Context<ApproveManVsMachine>,
     ) -> Result<()> {
       QaProcessor::approve_man_vs_machine(ctx)
+    }
+
+    // hunt
+    pub fn create_hunt(
+      ctx: Context<CreateHunt>,
+      qs_accouts: [Pubkey; 10],
+      amount: u64,
+    ) -> Result<()> {
+      QaProcessor::create_hunt(ctx, qs_accouts, amount)
+    }
+
+    pub fn join_hunt(
+      ctx: Context<JoinHunt>
+    ) -> Result<()> {
+      QaProcessor::join_hunt(ctx)
     }
 }

@@ -14,4 +14,12 @@ pub enum QuestionError {
     #[msg("ready anwser all")]
     ManVsMachineAnwserAll,
 
+    #[msg("hunt match successed")]
+    HuntMatchSuccessed,
+    #[msg("hunt builder had in")]
+    HuntBuilderHadIn,
+    #[msg("hunt parter had in")]
+    HuntParterHadIn,
+
+
 }

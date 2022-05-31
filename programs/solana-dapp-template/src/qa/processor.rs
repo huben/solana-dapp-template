@@ -1,9 +1,12 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token;
 
+use anchor_lang::solana_program::pubkey::Pubkey;
+
 use crate::qa::instruction::question::*;
 use crate::qa::instruction::anwser::*;
 use crate::qa::instruction::mainvsmachine::*;
+use crate::qa::instruction::hunt::*;
 use crate::qa::error::*;
 use crate::utils::{ get_timestamp };
 use crate::constant::{ ACCOUNT_TYPE_QUESTION, ACCOUNT_TYPE_ANWSER, LAMPORTS_PER_SOL };
@@ -170,6 +173,74 @@ impl QaProcessor {
 
     let count_u64 = man_vs_machine_account.count as u64;
     token::transfer(ctx.accounts.into(), count_u64 * 3 * LAMPORTS_PER_SOL)
+  }
+
+  pub fn create_hunt(
+    ctx: Context<CreateHunt>,
+    qs_accouts: [Pubkey; 10],
+    amount: u64,
+  ) -> Result<()> {
+    let hunt_account = &mut ctx.accounts.hunt_account;
+    let signer: &Signer = &ctx.accounts.signer;
+
+    hunt_account.qs_accouts = qs_accouts;
+    hunt_account.timestamp = get_timestamp();
+    hunt_account.builder = *signer.key;
+    hunt_account.amount = amount;
+    hunt_account.status = 0;
+    
+    token::transfer(ctx.accounts.into(), amount * LAMPORTS_PER_SOL)
+  }
+
+  pub fn join_hunt(
+    ctx: Context<JoinHunt>
+  ) -> Result<()> {
+    let hunt_account = &mut ctx.accounts.hunt_account;
+    let signer: &Signer = &ctx.accounts.signer;
+
+    let from = &ctx.accounts.from;
+    
+    if hunt_account.status == 2 {
+      return Err(QuestionError::HuntMatchSuccessed.into());
+    }
+
+    let player_account = &mut ctx.accounts.player_account;
+    player_account.authority = *signer.key;
+    player_account.timestamp = get_timestamp();
+    player_account.ata = *from.key;
+    player_account.start = get_timestamp();
+    player_account.count = 10;
+    player_account.success_count = 0;
+    player_account.error_count = 0;
+
+    hunt_account.status += 1;
+      
+    if *signer.key == hunt_account.builder {
+      if hunt_account.builder_in != 1 {
+        hunt_account.builder_in = 1;
+        if hunt_account.parter_in == 1 {
+          hunt_account.status = 1;
+        }
+        Ok(())
+      } else {
+        return Err(QuestionError::HuntBuilderHadIn.into());
+      }
+    } else {
+      if hunt_account.parter_in != 1 {
+        let authority = &ctx.accounts.authority;
+        hunt_account.parter = *authority.key;
+        let amount = hunt_account.amount;
+        hunt_account.parter_in = 1;
+        if hunt_account.builder_in == 1 {
+          hunt_account.status = 1;
+        }
+        token::transfer(ctx.accounts.into(),  amount * LAMPORTS_PER_SOL)
+      } else {
+        return Err(QuestionError::HuntParterHadIn.into());
+      }
+      
+    }
+    
   }
 
 }

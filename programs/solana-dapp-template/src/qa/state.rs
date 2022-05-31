@@ -78,11 +78,59 @@ pub struct ManVsMachineAccount {
 const LENGTH_COUNT: usize = 1;
 impl ManVsMachineAccount {
   pub const LENGTH: usize = LENGTH_DISCRIMINATOR
-  + LENGTH_PUBLIC_KEY
-  + LENGTH_TIMESTAMP
-  + LENGTH_PUBLIC_KEY
-  + LENGTH_COUNT
-  + LENGTH_COUNT
-  + LENGTH_COUNT
-  + LENGTH_COUNT;
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_TIMESTAMP
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_COUNT
+      + LENGTH_COUNT
+      + LENGTH_COUNT
+      + LENGTH_COUNT;
+}
+
+
+
+#[account]
+pub struct HuntAccount {
+  pub qs_accouts: [Pubkey; 10],
+  pub timestamp: i64,
+  pub builder: Pubkey, // player
+  pub parter: Pubkey, // player
+  pub winer: Pubkey, //  player ata
+  pub amount: u64, // < 128
+  pub status: i8, // 0 已创建 1 匹配完成 2 已完成 3 已发奖
+  pub builder_in: i8,
+  pub parter_in: i8,
+}
+impl HuntAccount {
+  pub const LENGTH: usize = LENGTH_DISCRIMINATOR
+      + LENGTH_PUBLIC_KEY * 10
+      + LENGTH_TIMESTAMP
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_TIMESTAMP
+      + LENGTH_COUNT
+      + LENGTH_COUNT
+      + LENGTH_COUNT;
+}
+
+#[account]
+pub struct HuntPlayerAccount {
+  pub authority: Pubkey,
+  pub timestamp: i64,
+  pub ata: Pubkey,
+  pub start: i64, // 开始时间戳
+  pub count: i8, // 已完成数量
+  pub success_count: i8, // 答对数量
+  pub error_count: i8, // 答错数量
+}
+impl HuntPlayerAccount {
+  pub const LENGTH: usize = LENGTH_DISCRIMINATOR
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_TIMESTAMP
+      + LENGTH_PUBLIC_KEY
+      + LENGTH_TIMESTAMP
+      + LENGTH_COUNT
+      + LENGTH_COUNT
+      + LENGTH_COUNT;
 }

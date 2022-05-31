@@ -102,6 +102,17 @@ export async function randomQuestion() {
   return questions[randomNum(0, questions.length)].pubkey
 }
 
+export async function randomQsAccounts(num) {
+  const filters = [ statusFilter(1) ]
+  const { program } = useAnchor()
+  const questions = await allPubkeys(program.value.account.questionAccount, filters)
+  const qsAccounts = [];
+  for(let i = 0; i < num; i ++) {
+    qsAccounts.push(questions[randomNum(0, questions.length)].pubkey)
+  }
+  return qsAccounts
+}
+
 // [min, max)
 function randomNum(min, max){ 
   return parseInt(Math.random()*(max - min) + min, 10); 

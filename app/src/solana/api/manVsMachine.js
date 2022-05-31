@@ -9,7 +9,7 @@ import {
 } from './sol'
 import { useAnchor } from '../useAnchor'
 import { ManVsMachine } from '../model/manVsMachine'
-import { godPublicKey } from './god'
+import { developerPublicKey } from './developer'
 
 export const all = async (filter = []) => {
   const { program } = useAnchor()
@@ -40,7 +40,7 @@ export async function createManVsMachine(count) {
         authority: wallet.value.publicKey,
         mint: NATIVE_MINT,
         from: ata.publicKey,
-        to: godPublicKey,
+        to: developerPublicKey,
         tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID
       },
       signers: [ newManVsMachineAccount ]

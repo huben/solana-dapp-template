@@ -6,7 +6,10 @@ import { Program, AnchorProvider } from '@project-serum/anchor'
 import idl from '../config/idl.json';
 import cluster from '../config/cluster'
 
-const programId = new PublicKey(cluster.idl);
+let programId = new PublicKey(cluster.idl)
+if (process.env.VUE_APP_CLUSTER === 'local') {
+  programId = new PublicKey(idl.metadata.address);
+}
 
 // const preflightCommitment = 'processed'
 const commitment = 'confirmed'
