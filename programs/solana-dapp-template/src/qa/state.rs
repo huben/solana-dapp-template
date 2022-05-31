@@ -63,3 +63,24 @@ impl AnwserAccount {
   + LENGTH_STATUS
   + LENGTH_ANWSER;
 }
+
+#[derive(Debug)]
+#[account]
+pub struct ManVsMachine {
+  pub authority: Pubkey,
+  pub timestamp: i64,
+  pub ata: Pubkey,
+  pub count: i8,
+  pub success_count: i8,
+  pub error_count: i8,
+}
+const LENGTH_COUNT: usize = 1;
+impl ManVsMachine {
+  pub const LENGTH: usize = LENGTH_DISCRIMINATOR
+  + LENGTH_PUBLIC_KEY
+  + LENGTH_TIMESTAMP
+  + LENGTH_PUBLIC_KEY
+  + LENGTH_COUNT
+  + LENGTH_COUNT
+  + LENGTH_COUNT;
+}

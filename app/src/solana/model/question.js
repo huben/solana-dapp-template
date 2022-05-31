@@ -7,24 +7,27 @@ export class Question {
     this.timestamp = accountInfo.timestamp
     this.accountType = accountInfo.accountType
     this.authorityAta = accountInfo.authorityAta
-    try {
-      this.desc = bs58.decode(accountInfo.desc).toString()
-    } catch (error) {
-      console.log(error)
-      this.desc = accountInfo.desc
-    }
-    try {
-      this.option1 = bs58.decode(accountInfo.option1).toString()
-    } catch (error) {
-      console.log(error)
-      this.option1 = accountInfo.option1
-    }
-    try {
-      this.option2 = bs58.decode(accountInfo.option2).toString()
-    } catch (error) {
-      console.log(error)
-      this.option2 = accountInfo.option2
-    }
+    // try {
+    //   this.desc = bs58.decode(accountInfo.desc).toString()
+    // } catch (error) {
+    //   console.log(error)
+    //   this.desc = accountInfo.desc
+    // }
+    this.desc = accountInfo.desc
+    // try {
+    //   this.option1 = bs58.decode(accountInfo.option1).toString()
+    // } catch (error) {
+    //   console.log(error)
+    //   this.option1 = accountInfo.option1
+    // }
+    this.option1 = accountInfo.option1
+    // try {
+    //   this.option2 = bs58.decode(accountInfo.option2).toString()
+    // } catch (error) {
+    //   console.log(error)
+    //   this.option2 = accountInfo.option2
+    // }
+    this.option2 = accountInfo.option2
     this.status = accountInfo.status
   }
 }

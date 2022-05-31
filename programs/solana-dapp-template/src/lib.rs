@@ -21,7 +21,9 @@ use token::processor::*;
 use sol::*;
 
 use qa::processor::*;
-use qa::instruction::*;
+use crate::qa::instruction::question::*;
+use crate::qa::instruction::anwser::*;
+use crate::qa::instruction::mainvsmachine::*;
 
 declare_id!("9T1cysJ2PTFvVTcE9XCZdJ2cALrQg8yCckmkHXtpksU");
 
@@ -115,5 +117,12 @@ pub mod solana_dapp_template {
       ctx: Context<ApproveAnwser>
     ) -> Result<()> {
       QaProcessor::approve_anwser(ctx)
+    }
+
+    pub fn man_vs_machine(
+      ctx: Context<NewManVsMachine>,
+      count: i8,
+    ) -> Result<()> {
+      QaProcessor::man_vs_machine(ctx, count)
     }
 }

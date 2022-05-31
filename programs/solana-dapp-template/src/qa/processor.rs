@@ -1,7 +1,9 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token;
 
-use crate::qa::instruction::*;
+use crate::qa::instruction::question::*;
+use crate::qa::instruction::anwser::*;
+use crate::qa::instruction::mainvsmachine::*;
 use crate::qa::error::*;
 use crate::utils::{ get_timestamp };
 use crate::constant::{ ACCOUNT_TYPE_QUESTION, ACCOUNT_TYPE_ANWSER, LAMPORTS_PER_SOL };
@@ -100,7 +102,26 @@ impl QaProcessor {
     }
     anwser_account.status = 3;
     token::transfer(ctx.accounts.into(), 2 * LAMPORTS_PER_SOL)
+  }
 
+  pub fn man_vs_machine(
+    ctx: Context<NewManVsMachine>,
+    count: i8,
+  ) -> Result<()> {
+
+    let man_vs_machine = &mut ctx.accounts.man_vs_machine;
+    let ata: &AccountInfo = &ctx.accounts.ata;
+    let signer: &Signer = &ctx.accounts.signer;
+
+    man_vs_machine.authority = *signer.key;
+    man_vs_machine.timestamp = get_timestamp();
+    man_vs_machine.ata = *ata.key;
+    man_vs_machine.count = count;
+    man_vs_machine.success_count = 0;
+    man_vs_machine.error_count = 0;
+
+    let count_u64 = count as u64;
+    token::transfer(ctx.accounts.into(), count_u64 * LAMPORTS_PER_SOL)
   }
 }
 

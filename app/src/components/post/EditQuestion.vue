@@ -11,7 +11,7 @@
         type="textarea"
         placeholder="Please input desc"
         show-word-limit
-        maxlength="140"
+        maxlength="12"
       )
     el-form-item(
       label="option"
@@ -21,14 +21,14 @@
         :rows="1"
         placeholder="Please input option1"
         show-word-limit
-        maxlength="32"
+        maxlength="5"
       )
       el-input(
         v-model="option2"
         :rows="1"
         placeholder="Please input option2"
         show-word-limit
-        maxlength="32"
+        maxlength="5"
       )
     el-form-item(
       label="option"

@@ -506,6 +506,57 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "manVsMachine",
+      "accounts": [
+        {
+          "name": "manVsMachine",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "count",
+          "type": "i8"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -636,6 +687,34 @@
           },
           {
             "name": "anwser",
+            "type": "i8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ManVsMachine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "ata",
+            "type": "publicKey"
+          },
+          {
+            "name": "count",
+            "type": "i8"
+          },
+          {
+            "name": "finishCount",
             "type": "i8"
           }
         ]

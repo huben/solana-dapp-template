@@ -11,6 +11,10 @@ import anwser from '@/views/anwser'
 
 import anwserRank from '@/views/anwserRank'
 
+import anwserNewbie from '@/views/anwser/newbie'
+import anwserNormal from '@/views/anwser/normal'
+import anwserKnowbie from '@/views/anwser/knowbie'
+
 export const routes = [
   { 
     path: '/dashboard', component: layout, 
@@ -100,9 +104,24 @@ export default createRouter({
     ...routes, 
     {
       path: '/anwser/rank', 
+      redirect: '/anwser/rank/newbie',
       component: anwserRank, 
+      children: [
+        {
+          path: 'newbie',
+          component: anwserNewbie,
+        },
+        {
+          path: 'normal',
+          component: anwserNormal,
+        },
+        {
+          path: 'knowbie',
+          component: anwserKnowbie,
+        },
+      ],
       meta: {
-        title: '天梯榜'
+        title: ''
       } 
     },
   ],
