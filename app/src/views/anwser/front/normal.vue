@@ -6,6 +6,7 @@
         el-col(:span="4")
           el-input(v-model="count")
         el-button(@click='tapManVsMachine' type='primary') 开始对战
+        el-button(@click='getAll') 刷新
     el-table(
       :data="manVsMachines", 
       border, 
@@ -18,6 +19,9 @@
       ElTableColumn(prop="successCount", label="success", width="120")
       ElTableColumn(prop="errorCount", label="error", width="120")
       ElTableColumn(prop="status", label="status", width="120")
+        template(#default="scope")
+          div {{ statusFilter(scope.row.status) }}
+      
       ElTableColumn(fixed="right", label="Operations", width="300")
         template(#default="scope")
           el-button(size="small", @click="tapAnwser(scope.row, scope.$index)" :disabled="scope.row.count == (scope.row.successCount + scope.row.errorCount)") 继续答
@@ -128,6 +132,17 @@ export default {
         this.doingCount = row.successCount + row.errorCount + 1
         this.showInputDialog = true
         this.randomQuestion()
+      }
+    },
+    statusFilter(val) {
+      if (val == 0) {
+        return '已创建'
+      } else if (val == 1) {
+        return '已完成'
+      } else if (val == 2) {
+        return '已发奖'
+      } else if (val == 3) {
+        return '失败'
       }
     },
     tableRowClassName({ row }) {

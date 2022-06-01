@@ -13,6 +13,7 @@
         :label="item.name"
         :value="item.value"
       )
+    el-button(@click="getQuestions(1)") 刷新
   
   div(style="height: 15px;")
 

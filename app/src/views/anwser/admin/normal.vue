@@ -1,6 +1,8 @@
 <template lang="pug">
 .anwser 
   el-card
+    template(#header)
+      el-button(@click="getAll") 刷新
     el-table(
       :data="manVsMachines", 
       border, 
@@ -14,6 +16,8 @@
       ElTableColumn(prop="successCount", label="success", width="120")
       ElTableColumn(prop="errorCount", label="error", width="120")
       ElTableColumn(prop="status", label="status", width="120")
+        template(#default="scope")
+          div {{ statusFilter(scope.row.status) }}
       ElTableColumn(fixed="right", label="Operations", width="120")
         template(#default="scope")
           el-button(size="small", @click="tapApprove(scope.row, scope.$index)" :disabled="scope.row.status != 1") {{ statusFilter(scope.row.status) }}

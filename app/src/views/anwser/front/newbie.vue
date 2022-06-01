@@ -177,7 +177,6 @@ export default {
       }
     },
     tableRowClassName({ row }) {
-      console.log(this.publicKey)
       if (row.authority == this.publicKey) {
         return 'warning-row'
       } 
