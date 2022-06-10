@@ -61,6 +61,13 @@ anchor keys list
 // 输出日志
 // solana logs --url localhost
 
-http://172.17.1.34:8899/
+访问地址：http://172.17.1.34/solana-dapp-template/index.html#/anwser/rank/newbie
+私链地址：http://172.17.1.34:8899/
+大家可以提前创建一个钱包，连接一下私链。（上手有点复杂）
+solana 号称速度快，并发高；大家可以尝试一下能不能拖垮我搭建的私链。
+
 https://broken-bitter-thunder.solana-devnet.quiknode.pro/fdf7b6aa4f9e64a4b5ff76dac6d14261117df302/
 https://solana--devnet.datahub.figment.io/apikey/50fb7817d8f26b005309c0b04cb44896
+
+http://172.17.1.34/solana-dapp-template/index.html#/dashboard/index
+http://172.17.1.34/solana-dapp-template/index.html#/anwser/rank/newbie

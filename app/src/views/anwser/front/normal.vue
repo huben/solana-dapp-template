@@ -35,6 +35,7 @@
 </template>
 <script>
 import { ElMessage } from 'element-plus'
+import { useWallet } from 'solana-wallets-vue';
 
 import timeFormat from '@/mixins/timeFormat'
 
@@ -55,6 +56,12 @@ export default {
   mixins: [timeFormat],
   components: {
     EditAnwser,
+  },
+  setup() {
+    const { publicKey } = useWallet()
+    return {
+      publicKey, 
+    }
   },
   data() {
     return {
